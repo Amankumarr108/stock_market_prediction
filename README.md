@@ -1,8 +1,6 @@
 # Stock Market Prediction Project
 
-**Stock:** Apple (AAPL)  
-**Data Period:** 2018-2023  
-**Prediction:** Next 30 Days Closing Price  
+
 
 ## About the Project
 This project predicts Apple stock prices using historical data.  
