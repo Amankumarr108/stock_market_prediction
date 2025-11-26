@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stock Prediction</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+
+  <body>
+    <div class="app-wrap">
+
+      <!-- Header -->
+      <header class="nav-top">
+        <div class="nav-inner container">
+
+          <div class="nav-brand">
+            <svg class="logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3 17h3l3-5 4 6 4-10 4 9"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <div class="brand-title">Stock Predictor</div>
+              <div class="brand-sub">Forecast Models</div>
+            </div>
+          </div>
+
+          <div class="nav-actions">
+            <a href="#prediction" class="btn small">Predict</a>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- Main Layout -->
+      <main class="container layout-wide">
+
+        <!-- Hero Section -->
+        <section class="hero-card card">
+          <h1 class="hero-title">Forecast Future Stock Prices</h1>
+          <p class="hero-sub">
+            A simple prediction interface powered by machine learning and historical market data.
+          </p>
+        </section>
+
+        <!-- Prediction Panel -->
+        <aside id="prediction" class="card sticky-card">
+          <h3 class="card-title">Make a Prediction</h3>
+
+          <form method="post" action="/predict_form" class="predict-form">
+
+            <label class="label">Company</label>
+            <select name="company" class="input">
+              {% for c in companies %}
+                <option value="{{ c }}" {% if c == company %}selected{% endif %}>{{ c }}</option>
+              {% endfor %}
+            </select>
+
+            <label class="label">Days Ahead</label>
+            <input type="number" name="days" min="1" max="365" value="7" class="input" required>
+
+            <div class="form-actions">
+              <button type="submit" class="btn primary wide">Generate</button>
+            </div>
+
+          </form>
+        </aside>
+
+        <!-- Results Section -->
+        <section class="card results-area">
+
+          {% if error %}
+            <div class="notice error">{{ error }}</div>
+          {% endif %}
+
+          {% if predictions %}
+            <div class="result-list">
+              <h3>Predicted Prices — {{ company }}</h3>
+              <ul>
+                {% for p in predictions %}
+                  <li>{{ loop.index }} — <strong>{{ p }} $</strong></li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% else %}
+            <p class="muted">Enter a company and the number of days to generate a forecast.</p>
+          {% endif %}
+
+        </section>
+
+      </main>
+
+      <!-- Footer -->
+      <footer class="site-foot">
+        <div class="container">
+          © {{ year }} — Forecast values are estimates only.
+        </div>
+      </footer>
+
+    </div>
+  </body>
+</html>
